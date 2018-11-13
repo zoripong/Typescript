@@ -1,0 +1,10 @@
+"use strict";
+var myVar = false;
+var myBooleanVar = new Boolean(true);
+console.log(myVar.valueOf());
+console.log(myBooleanVar.valueOf());
+var decimal = 6;
+var hex = 0xf00d;
+var binary = 10;
+var octal = 484;
+console.log(octal.valueOf());
