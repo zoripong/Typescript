@@ -23,6 +23,8 @@ WebStorm 2018.2.5
 ## const 와 let
 
 - TypeScript 에서는 'var'를 사용하지 않는다. const 와 let 을 이용한다.
+- [그 이유는 여기에](https://moon9342.github.io/typescript-variable)
+
 
 ## Data Type
 
@@ -165,6 +167,131 @@ let myVarCount: number = (<string>myVar).length;
 myVarCount = (myVar as string).length;
 
 console.log((<number>myVar).toFixed());  // runtime error
+```
+
+## Destructuring
+- Destructuring Assignment
+  * 비구조할당
+- 종류
+  * [Array](#Array-Destructuring)
+  * [Object](#Object-Destructuring)
+  
+### Array Destructuring
+```typescript
+let myArr: string[] = ["Hello", "World", "Moon"];
+
+let [first, second, third] = myArr;
+
+[second, first] = [first, second];   // swap 처리
+
+console.log(first);     // "Hello" 출력
+console.log(second);    // "World" 출력
+console.log(third);     // "Moon" 출력
+```
+- [first, second, third]
+   * Destructuring Array(비구조배열)
+
+```typescript
+let myArr: number[] = [1, 2, 3, 4];
+
+let [first, ...others] = myArr;
+
+console.log(first);    // 1 출력
+console.log(others);   // [2, 3, 4] 출력 ( 서브배열 )
+```
+
+### Object Destructuring
+
+```typescript
+let obj = {
+    key1 : "Hello World",
+    key2 : 100,
+    key3 : "TypeScript"
+};
+
+let { key1:a, key2:b } = obj;
+let { key1, key2 } = obj;
+let { a, b } = { a: "Hello World", b: 100 };
+let { key1:a, key2:b}: {key1:string, key2:number} = obj; // 데이터 타입 지정
+let { key1:a, key2:b = 30 } = obj; // default 지정
+
+console.log(a);    // Hello World 출력
+console.log(b);    // 100 출력
+```
+- obj 의 key1 이 a 에 대입
+- [] 가 아닌 {}
+- 객체의 key 와 비구조 객체의 변수가 동일하다면 간소화 형태로 이용 가능
+
+```typescript
+let obj = {
+    myName: "홍길동",
+    myAddress: "서울",
+    myAge: 30
+};
+
+let { myName, ...otherInfo} = obj;
+
+console.log(`이름은 : ${myName}`);
+console.log(`나이는 : ${otherInfo.myAge}`);
+```
+- 서브 객체
+
+### Destructing 응용
+- Map
+```typescript
+let map = new Map();
+
+map.set("myName","홍길동");
+map.set("myAddress","서울");
+map.set("myAge",30);
+
+for(let [key, value] of map) {
+    console.log(`${key} 의 값은 ${value} 입니다.`);
+}
+
+for(let [key] of map ) {
+    // 모든 key 값만을 출력할 수 있습니다.
+    console.log(`${key}`);
+}
+
+for(let [,value] of map ) {
+    // 모든 value 값만을 출력할 수 있습니다.
+    console.log(`${value}`);
+}
+```
+- 함수의 리턴 값
+> 배열 리턴
+
+```typescript
+function myFunc(): string[] {
+    let arr: string[] = [];
+    // 로직처리 ...
+    arr[0] = "첫번째 결과값";
+    arr[1] = "두번째 결과값";
+
+    return arr;
+}
+
+let [result1, result2] = myFunc();
+```
+
+> 객체 리턴
+
+```typescript
+function myFunc(): {result1:string, result2?:number} {
+
+    let obj = {
+        result1 : "",
+        result2 : 0
+    };
+    // 로직처리 ...
+    obj.result1 = "첫번째 결과값";
+    obj.result2 = 100;
+
+    return obj;
+}
+
+let {result1:first, result2:second} = myFunc();
 ```
 
 ## References
