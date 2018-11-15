@@ -294,5 +294,67 @@ function myFunc(): {result1:string, result2?:number} {
 let {result1:first, result2:second} = myFunc();
 ```
 
+## Interface
+- 새로운 데이터 타입을 만드는 추상데이터 타입으로 사용
+- 일반 변수, 함수, 클래스의 타입을 확인하기 위해 사용
+- prototype 과 method 구현이 강제
+- ES6는 지원하지 않고, TypeScript 에서만 지원
+
+> interface.ts
+
+### Duck Typing
+
+- TypeScript 는 선언된 타입만이 아닌 가지고 있는 형태역시 체크하여 타입을 확인한다.
+- 어떠한 값을 가지고 있느냐 그렇지 않느냐
+
+### Optional Properties
+- Interface 의 prototype 과 method 가 모두 재정의 되어있어야 함.
+- Optional Properties 는 재정의 하지 않아도 됨 (?가 붙어있는 properties)
+
+### Readonly Properties
+- readonly 키워드를 이용하면 초기화 이후 값을 수정할 수 없게 됨
+- ReadonlyArray<T> 형태의 Array 지원
+
+```typescript
+let arr: number[] = [1, 2, 3, 4];
+
+let roArray: ReadonlyArray<number> = arr;
+
+// roArray[0] = 100;   // 코드 에러
+// roArray.push(100);  // 코드 에러
+
+// arr = roArray;             // 코드 에러
+arr = roArray as number[]; // 가능
+```
+
+### Function Types
+```typescript
+interface myInterface {
+    (myName: string, myAge: number): void;
+}
+
+let myFunc: myInterface = function(myName:string, myAge:number): void {
+    console.log(`이름 : ${myName}, 나이 : ${myAge}`);
+};
+
+myFunc("홍길동",30);
+```
+### Indexable Types
+- .을 통하여 객체에 접근 가능
+- []을 통하여 객체에 접근 가능
+  * index signature 설정
+  * 컴파일러 옵션 수정
+  > "noImplicitAny": false 추가
+  
+### Class Types
+- new 를 사용하여 constructor signature 추가
+- 매개변수로 constructor 를 넘겨 new 할 수 있게 됨
+
+### interface 의 확장
+- extends 키워드 사용
+- 동시에 여러 개의 interface 로 부터 상속 가능
+
+> interface 는 type 확인을 위해 사용되기 때문에 객체 생성은 불가능하다.
+
 ## References
 - [TypeScript 강좌](https://moon9342.github.io/typescript-introduction)
